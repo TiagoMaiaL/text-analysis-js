@@ -1,4 +1,4 @@
-const { sanitize, getChars, itemCounts, itemFrequencies } = require('../textalyze');
+const { sanitize, getChars, itemCounts, itemFrequencies, getPrintStatistics } = require('../textalyze');
 
 describe('itemCount', () => {
   test('returns a count of the strings in the array', () => {
@@ -90,5 +90,25 @@ describe('itemFrequencies', () => {
     const expectedOutput = new Map([['a', 0.50], ['b', 0.20], ['c', 0.20], ['d', 0.10]]);
 
     expect(itemFrequencies(inputTotalCount, inputItemCounts)).toEqual(expectedOutput);
+  });
+});
+
+describe('getPrintStatistics', () => {
+  test('it returns an empty string when the provided map is empty', () => {
+    expect(getPrintStatistics(new Map())).toEqual('');
+  });
+
+  test('it returns a line for each map entry', () => {
+    const input = new Map([['a', 125], ['b', 167], ['c', 296], ['d', 2550]]);
+    const expectedLineCount = input.size + 1; // Includes a last linebreak.
+
+    expect(getPrintStatistics(input).split('\n').length).toEqual(expectedLineCount);
+  });
+
+  test('it returns the expected text format of the lines', () => {
+    const input = new Map([['a', 1966], ['b', 2.25]]);
+    const expectedOutput = 'a \t 1966 \nb \t 2.25 \n';
+
+    expect(getPrintStatistics(input)).toEqual(expectedOutput);
   });
 });

@@ -1,4 +1,4 @@
-const { sanitize, getChars, itemCounts } = require('../textalyze');
+const { sanitize, getChars, itemCounts, itemFrequencies } = require('../textalyze');
 
 describe('itemCount', () => {
   test('returns a count of the strings in the array', () => {
@@ -46,7 +46,7 @@ describe('getChars', () => {
     const input = 'Testing input';
     const expectedOutput = ['T', 'e', 's', 't', 'i', 'n', 'g', ' ', 'i', 'n', 'p', 'u', 't'];
 
-    expect(getChars(input)).toEqual(expectedOutput)
+    expect(getChars(input)).toEqual(expectedOutput);
   });
 
   test('throws an error when the passed text isn\'t a string', () => {
@@ -55,14 +55,34 @@ describe('getChars', () => {
 
   describe('sanitize', () => {
     test('returns the passed text in lowercase', () => {
-      const input = 'HEY: ThIs Is hArD tO rEaD!'
-      const expectedOutput = "hey: this is hard to read!"
+      const input = 'HEY: ThIs Is hArD tO rEaD!';
+      const expectedOutput = "hey: this is hard to read!";
 
-      expect(sanitize(input)).toEqual(expectedOutput)
+      expect(sanitize(input)).toEqual(expectedOutput);
     });
 
     test('throws an error when the passed text isn\'t a string', () => {
-      expect(sanitize).toThrow(new Error('Only texts can be sanitized.'))
+      expect(sanitize).toThrow(new Error('Only texts can be sanitized.'));
+    });
+  });
+
+  describe('itemFrequencies', () => {
+    test('throws an exception when a total count of zero is passed', () => {
+      expect(() => {
+        itemFrequencies(0, new Map());
+      }).toThrow(new Error());
+    });
+
+    test('returns an empty map when an empty map of item counts is passed', () => {
+      expect(itemFrequencies(12, new Map())).toEqual(new Map());
+    });
+
+    test('returns the item frequencies determined by the total count and item counts', () => {
+      const inputTotalCount = 50;
+      const inputItemCounts = new Map([['a', 25], ['b', 10], ['c', 10], ['d', 5]]);
+      const expectedOutput = new Map([['a', 0.50], ['b', 0.20], ['c', 0.20], ['d', 0.10]]);
+
+      expect(itemFrequencies(inputTotalCount, inputItemCounts)).toEqual(expectedOutput);
     });
   });
 });

@@ -40,6 +40,17 @@ function itemCounts(array) {
 }
 
 /**
+ * Given a count of chars in a text, gets its map of chars and occurences, and calculates a map of chars and frequencies based
+ * on the passed count of chars.
+ * @param {Integer} totalCount - The total amount of chars in a text.
+ * @param {Map} itemCounts - A map containing the occurrences of each char in the text.
+ * @returns {Map} itemFrequencies - A map containing the frequencies of each char based on the total count.
+ */
+function itemFrequencies(totalCount, itemCounts) {
+
+}
+
+/**
  * Given an input Map, get the text to print it to the user.
  * @param {Map} map - The map to be printed to the user.
  * @returns {String} text - The text to be displayed to the user.

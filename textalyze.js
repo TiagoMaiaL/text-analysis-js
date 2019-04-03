@@ -76,10 +76,13 @@ function analyzeFile(path) {
 if (require.main == module) {
   let textFiles = process.argv.slice(2);
 
-  if (textFiles.length > 0) {
-    textFiles.forEach((filePath) => {
-      analyzeFile(filePath);
-    });
+  if (textFiles.length == 0) {
+    throw new Error('Please, include the text files to be analyzed as arguments. Example usage: npm start path-of-the-file-to-analyze ...')
   }
+
+  textFiles.forEach((filePath) => {
+    analyzeFile(filePath);
+  });
 }
+
 module.exports = { sanitize, getChars, itemCounts };

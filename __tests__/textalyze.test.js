@@ -73,7 +73,13 @@ describe('getChars', () => {
       }).toThrow(new Error('The items frequencies can\'t be computed without a total count of chars.'));
     });
 
-    test('returns an empty map when an empty map of item counts is passed', () => {
+    test('throws an exception when a non item counts Map argument is passed', () => {
+      expect(() => {
+        itemFrequencies(27, null);
+      }).toThrow(new Error('The item frequencies must be a valid map.'));
+    });
+
+    test('returns an empty map when an empty item count is passed', () => {
       expect(itemFrequencies(12, new Map())).toEqual(new Map());
     });
 

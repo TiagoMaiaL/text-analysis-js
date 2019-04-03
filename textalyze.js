@@ -51,6 +51,10 @@ function itemFrequencies(totalCount, itemCounts) {
     throw new Error('The items frequencies can\'t be computed without a total count of chars.');
   }
 
+  if (typeof itemCounts != 'object' || !(itemCounts instanceof Map)) {
+    throw new Error('The item frequencies must be a valid map.');
+  }
+
   let itemFrequencies = new Map();
 
   for (let [key, value] of itemCounts) {

@@ -70,11 +70,19 @@ function analyzeFile(path) {
 
     console.log(`The analysis of the file at ${path} is...`);
     console.log(getPrintStatistics(itemCounts(getChars(sanitizedText))));
-  });  
+  });
 }
 
 if (require.main == module) {
-  analyzeFile('sample_data/moby-dick.full.txt')
+  let textFiles = process.argv.slice(2);
+
+  if (textFiles.length == 0) {
+    throw new Error('Please, include the text files to be analyzed as arguments. Example usage: npm start path-of-the-file-to-analyze ...')
+  }
+
+  textFiles.forEach((filePath) => {
+    analyzeFile(filePath);
+  });
 }
 
 module.exports = { sanitize, getChars, itemCounts };

@@ -70,7 +70,7 @@ describe('getChars', () => {
     test('throws an exception when a total count of zero is passed', () => {
       expect(() => {
         itemFrequencies(0, new Map());
-      }).toThrow(new Error());
+      }).toThrow(new Error('The items frequencies can\'t be computed without a total count of chars.'));
     });
 
     test('returns an empty map when an empty map of item counts is passed', () => {

@@ -47,7 +47,17 @@ function itemCounts(array) {
  * @returns {Map} itemFrequencies - A map containing the frequencies of each char based on the total count.
  */
 function itemFrequencies(totalCount, itemCounts) {
+  if (totalCount <= 0) {
+    throw new Error('The items frequencies can\'t be computed without a total count of chars.');
+  }
 
+  let itemFrequencies = new Map();
+
+  for (let [key, value] of itemCounts) {
+    itemFrequencies.set(key, value / totalCount)
+  }
+  
+  return itemFrequencies;
 }
 
 /**
@@ -96,4 +106,4 @@ if (require.main == module) {
   });
 }
 
-module.exports = { sanitize, getChars, itemCounts };
+module.exports = { sanitize, getChars, itemCounts, itemFrequencies };

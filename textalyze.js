@@ -92,9 +92,12 @@ function analyzeFile(path) {
     }
 
     const sanitizedText = sanitize(data);
+    const textLength = sanitizedText.length;
+    const counts = itemCounts(getChars(sanitizedText));
+    const frequencies = itemFrequencies(textLength, counts);
 
     console.log(`The analysis of the file at ${path} is...`);
-    console.log(getPrintStatistics(itemCounts(getChars(sanitizedText))));
+    console.log(getPrintStatistics(frequencies));
   });
 }
 

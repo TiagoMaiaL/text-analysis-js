@@ -73,7 +73,7 @@ function getPrintStatistics(map) {
   let output = '';
 
   for (let [key, value] of map) {
-    output += `${key} \t ${value} \n`;
+    output += `${key} \t ${Math.round(value * 100) / 100} \n`;
   }
 
   return output;
@@ -113,4 +113,4 @@ if (require.main == module) {
   });
 }
 
-module.exports = { sanitize, getChars, itemCounts, itemFrequencies };
+module.exports = { sanitize, getChars, itemCounts, itemFrequencies, getPrintStatistics };

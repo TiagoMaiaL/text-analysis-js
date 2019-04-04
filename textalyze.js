@@ -33,9 +33,7 @@ function getChars(text) {
 function itemCounts(array) {
   return array.reduce(function(map, value) {
     const currentCount = map.has(value) ? map.get(value) : 0;
-    map.set(value, currentCount + 1);
-
-    return map;
+    return map.set(value, currentCount + 1);
   }, new Map());
 }
 

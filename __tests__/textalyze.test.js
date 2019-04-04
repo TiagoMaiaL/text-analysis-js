@@ -1,4 +1,4 @@
-const { sanitize, getChars, itemCounts, itemFrequencies, getPrintStatistics } = require('../textalyze');
+const { sanitize, getChars, itemCounts, itemFrequencies, getPrintStatistics, getHistogramPrintStatistics } = require('../textalyze');
 
 describe('itemCount', () => {
   test('returns a count of the strings in the array', () => {
@@ -103,5 +103,23 @@ describe('getPrintStatistics', () => {
     const expectedOutput = 'a \t 1966 \nb \t 2.25 \n';
 
     expect(getPrintStatistics(input)).toEqual(expectedOutput);
+  });
+});
+
+describe('getHistogramPrintStatistics', () => {
+  test('it returns an empty string if the frequencies are empty', () => {
+
+  });
+
+  test('throws an error if the frequencies map isn\'t valid', () => {
+
+  });
+
+  test('displays a one-line histogram for a single-frequency map', () => {
+
+  });
+
+  test('displays a multi-line histogram for a multi-frequency map', () => {
+
   });
 });

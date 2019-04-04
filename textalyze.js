@@ -60,7 +60,7 @@ function itemFrequencies(itemCounts) {
 }
 
 /**
- * Given an input Map, get the text to print it to the user.
+ * Given an input Map, gets the text to print it to the user.
  * @param {Map} map - The map to be printed to the user.
  * @returns {String} text - The text to be displayed to the user.
  */
@@ -72,6 +72,14 @@ function getPrintStatistics(map) {
   }
 
   return output;
+}
+
+/**
+ * Given an input Map, gets the histogram text to print it to the user.
+ * @param {Map} map - The map to be printed to the user.
+ */
+function getHistogramPrintStatistics(map) {
+
 }
 
 /**
@@ -109,4 +117,4 @@ if (require.main == module) {
   });
 }
 
-module.exports = { sanitize, getChars, itemCounts, itemFrequencies, getPrintStatistics };
+module.exports = { sanitize, getChars, itemCounts, itemFrequencies, getPrintStatistics, getHistogramPrintStatistics };

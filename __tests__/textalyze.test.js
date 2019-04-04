@@ -108,18 +108,26 @@ describe('getPrintStatistics', () => {
 
 describe('getHistogramPrintStatistics', () => {
   test('it returns an empty string if the frequencies are empty', () => {
-
+    expect(getHistogramPrintStatistics(new Map())).toEqual('');
   });
 
   test('throws an error if the frequencies map isn\'t valid', () => {
-
+    expect(() => {
+      getHistogramPrintStatistics(null);
+    }).toThrow(new TypeError('The item frequencies must be a valid map.'));
   });
 
   test('displays a one-line histogram for a single-frequency map', () => {
+    const input = new Map([['a', 1.0]]);
+    const expectedOutput = 'a [100%] ======================================== \n';
 
+    expect(getHistogramPrintStatistics(input)).toEqual(expectedOutput);
   });
 
   test('displays a multi-line histogram for a multi-frequency map', () => {
+    const input = new Map([['a', 0.5], ['b', 0.5]]);
+    const expectedOutput = 'a [50%] ==================== \nb [50%] ==================== \n';
 
+    expect(getHistogramPrintStatistics(input)).toEqual(expectedOutput);
   });
 });

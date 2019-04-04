@@ -79,7 +79,37 @@ function getPrintStatistics(map) {
  * @param {Map} map - The map to be printed to the user.
  */
 function getHistogramPrintStatistics(map) {
+  if (typeof map !== 'object' || !(map instanceof Map)) {
+    throw new TypeError('The item frequencies must be a valid map.');
+  }
 
+  /**
+   * Given a percent size, creates a bar for displayal in the histogram.
+   * @param {Number} lengthPercent - The size of the bar as a percent value.
+   * @returns {String} bar - The bar string.
+   */
+  function makeHistogramBar(lengthPercent) {
+    const maxBarLength = 40;
+    let bar = '';
+
+    const length = Math.floor(maxBarLength * lengthPercent);
+    console.log('the lenght is ' + length);
+
+    for (let i = 0; i < length; i++) {
+      bar += '=';
+    }
+
+    return bar;
+  }
+
+  let histogram = '';
+
+  for (let [key, value] of map) {
+    const percentage = value * 100.0;
+    histogram += `${key} [${Math.round((percentage) * 100.0) / 100.0}%] ${makeHistogramBar(value)} \n`;
+  }
+
+  return histogram;
 }
 
 /**

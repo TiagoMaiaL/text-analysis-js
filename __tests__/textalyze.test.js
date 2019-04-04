@@ -87,6 +87,12 @@ describe('itemFrequencies', () => {
 });
 
 describe('getPrintStatistics', () => {
+  test('throws an error when the map isn\'t a valid one', () => {
+    expect(() => {
+      getPrintStatistics(null);
+    }).toThrow(new TypeError('The passed map must be a valid one.'));
+  });
+
   test('it returns an empty string when the provided map is empty', () => {
     expect(getPrintStatistics(new Map())).toEqual('');
   });

@@ -65,6 +65,10 @@ function itemFrequencies(itemCounts) {
  * @returns {String} text - The text to be displayed to the user.
  */
 function getPrintStatistics(map) {
+  if (typeof map !== 'object' || !(map instanceof Map)) {
+    throw new TypeError('The passed map must be a valid one.');
+  }
+
   let output = '';
 
   for (let [key, value] of map) {

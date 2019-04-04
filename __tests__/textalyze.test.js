@@ -68,28 +68,21 @@ describe('sanitize', () => {
 });
 
 describe('itemFrequencies', () => {
-  test('throws an exception when a total count of zero is passed', () => {
-    expect(() => {
-      itemFrequencies(0, new Map());
-    }).toThrow(new Error('The items frequencies can\'t be computed without a total count of chars.'));
-  });
-
   test('throws an exception when a non item counts Map argument is passed', () => {
     expect(() => {
       itemFrequencies(27, null);
-    }).toThrow(new Error('The item frequencies must be a valid map.'));
+    }).toThrow(new TypeError('The item frequencies must be a valid map.'));
   });
 
   test('returns an empty map when an empty item count is passed', () => {
-    expect(itemFrequencies(12, new Map())).toEqual(new Map());
+    expect(itemFrequencies(new Map())).toEqual(new Map());
   });
 
   test('returns the item frequencies determined by the total count and item counts', () => {
-    const inputTotalCount = 50;
-    const inputItemCounts = new Map([['a', 25], ['b', 10], ['c', 10], ['d', 5]]);
+    const inputCounts = new Map([['a', 25], ['b', 10], ['c', 10], ['d', 5]]);
     const expectedOutput = new Map([['a', 0.50], ['b', 0.20], ['c', 0.20], ['d', 0.10]]);
 
-    expect(itemFrequencies(inputTotalCount, inputItemCounts)).toEqual(expectedOutput);
+    expect(itemFrequencies(inputCounts)).toEqual(expectedOutput);
   });
 });
 

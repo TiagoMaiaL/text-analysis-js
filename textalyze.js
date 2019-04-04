@@ -39,19 +39,18 @@ function itemCounts(array) {
 
 /**
  * Given a count of chars in a text, gets its map of chars and occurences, and calculates a map of chars and frequencies based
- * on the passed count of chars.
- * @param {Integer} totalCount - The total amount of chars in a text.
+ * on the passed count map.
  * @param {Map} itemCounts - A map containing the occurrences of each char in the text.
  * @returns {Map} itemFrequencies - A map containing the frequencies of each char based on the total count.
  */
-function itemFrequencies(totalCount, itemCounts) {
-  if (totalCount <= 0) {
-    throw new Error('The items frequencies can\'t be computed without a total count of chars.');
+function itemFrequencies(itemCounts) {
+  if (typeof itemCounts != 'object' || !(itemCounts instanceof Map)) {
+    throw new TypeError('The item frequencies must be a valid map.');
   }
 
-  if (typeof itemCounts != 'object' || !(itemCounts instanceof Map)) {
-    throw new Error('The item frequencies must be a valid map.');
-  }
+  let totalCount = Array.from(itemCounts.values()).reduce((previous, current) => {
+    return previous + current;
+  }, 0);
 
   let itemFrequencies = new Map();
 

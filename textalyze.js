@@ -1,7 +1,7 @@
 
 /**
  * Given a text, returns it formatted for analysis.
- * @param {String} text - The text to be sinitized.
+ * @param {String} text - The text to be sanitized.
  * @returns {String} sanitizedText - The sanitized text.
  */
 function sanitize(text) {

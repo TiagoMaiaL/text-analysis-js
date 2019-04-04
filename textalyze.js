@@ -48,9 +48,7 @@ function itemFrequencies(itemCounts) {
     throw new TypeError('The item frequencies must be a valid map.');
   }
 
-  let totalCount = Array.from(itemCounts.values()).reduce((previous, current) => {
-    return previous + current;
-  }, 0);
+  const totalCount = Array.from(itemCounts.values()).reduce((x, y) => x + y, 0);
 
   let itemFrequencies = new Map();
 

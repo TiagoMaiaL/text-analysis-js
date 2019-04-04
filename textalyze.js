@@ -1,7 +1,7 @@
 
 /**
  * Given a text, returns it formatted for analysis.
- * @param {String} text - The text to be sinitized.
+ * @param {String} text - The text to be sanitized.
  * @returns {String} sanitizedText - The sanitized text.
  */
 function sanitize(text) {
@@ -33,10 +33,30 @@ function getChars(text) {
 function itemCounts(array) {
   return array.reduce(function(map, value) {
     const currentCount = map.has(value) ? map.get(value) : 0;
-    map.set(value, currentCount + 1);
-
-    return map;
+    return map.set(value, currentCount + 1);
   }, new Map());
+}
+
+/**
+ * Given a count of chars in a text, gets its map of chars and occurences, and calculates a map of chars and frequencies based
+ * on the passed count map.
+ * @param {Map} itemCounts - A map containing the occurrences of each char in the text.
+ * @returns {Map} itemFrequencies - A map containing the frequencies of each char based on the total count.
+ */
+function itemFrequencies(itemCounts) {
+  if (typeof itemCounts != 'object' || !(itemCounts instanceof Map)) {
+    throw new TypeError('The item frequencies must be a valid map.');
+  }
+
+  const totalCount = Array.from(itemCounts.values()).reduce((x, y) => x + y, 0);
+
+  let itemFrequencies = new Map();
+
+  for (let [key, value] of itemCounts) {
+    itemFrequencies.set(key, value / totalCount)
+  }
+  
+  return itemFrequencies;
 }
 
 /**
@@ -48,7 +68,7 @@ function getPrintStatistics(map) {
   let output = '';
 
   for (let [key, value] of map) {
-    output += `${key} \t ${value} \n`;
+    output += `${key} \t ${Math.round(value * 100) / 100} \n`;
   }
 
   return output;
@@ -67,9 +87,12 @@ function analyzeFile(path) {
     }
 
     const sanitizedText = sanitize(data);
+    const textLength = sanitizedText.length;
+    const counts = itemCounts(getChars(sanitizedText));
+    const frequencies = itemFrequencies(textLength, counts);
 
     console.log(`The analysis of the file at ${path} is...`);
-    console.log(getPrintStatistics(itemCounts(getChars(sanitizedText))));
+    console.log(getPrintStatistics(frequencies));
   });
 }
 
@@ -77,7 +100,8 @@ if (require.main == module) {
   let textFiles = process.argv.slice(2);
 
   if (textFiles.length == 0) {
-    throw new Error('Please, include the text files to be analyzed as arguments. Example usage: npm start path-of-the-file-to-analyze ...')
+    console.error('Please, include the text files to be analyzed as arguments. Example usage: npm start path-of-the-file-to-analyze ...');
+    process.exit(1);
   }
 
   textFiles.forEach((filePath) => {
@@ -85,4 +109,4 @@ if (require.main == module) {
   });
 }
 
-module.exports = { sanitize, getChars, itemCounts };
+module.exports = { sanitize, getChars, itemCounts, itemFrequencies, getPrintStatistics };

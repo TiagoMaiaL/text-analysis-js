@@ -71,7 +71,7 @@ describe('itemFrequencies', () => {
   test('throws an exception when a non item counts Map argument is passed', () => {
     expect(() => {
       itemFrequencies(27, null);
-    }).toThrow(new TypeError('The item frequencies must be a valid map.'));
+    }).toThrow(new TypeError('The item counts must be a valid map.'));
   });
 
   test('returns an empty map when an empty item count is passed', () => {
@@ -119,14 +119,28 @@ describe('getHistogramPrintStatistics', () => {
 
   test('displays a one-line histogram for a single-frequency map', () => {
     const input = new Map([['a', 1.0]]);
-    const expectedOutput = 'a [100%] ======================================== \n';
+
+    const histogramBarLength = 400;
+    let bar = '';
+    for (let i = 0; i < histogramBarLength; i++) {
+      bar += '=';
+    }
+
+    const expectedOutput = `a [100%] ${bar} \n`;
 
     expect(getHistogramPrintStatistics(input)).toEqual(expectedOutput);
   });
 
   test('displays a multi-line histogram for a multi-frequency map', () => {
     const input = new Map([['a', 0.5], ['b', 0.5]]);
-    const expectedOutput = 'a [50%] ==================== \nb [50%] ==================== \n';
+
+    const histogramBarLength = 200;
+    let bar = '';
+    for (let i = 0; i < histogramBarLength; i++) {
+      bar += '=';
+    }
+
+    const expectedOutput = `a [50%] ${bar} \nb [50%] ${bar} \n`;
 
     expect(getHistogramPrintStatistics(input)).toEqual(expectedOutput);
   });

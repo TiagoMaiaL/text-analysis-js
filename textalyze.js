@@ -44,8 +44,8 @@ function itemCounts(array) {
  * @returns {Map} itemFrequencies - A map containing the frequencies of each char based on the total count.
  */
 function itemFrequencies(itemCounts) {
-  if (typeof itemCounts != 'object' || !(itemCounts instanceof Map)) {
-    throw new TypeError('The item frequencies must be a valid map.');
+  if (typeof itemCounts !== 'object' || !(itemCounts instanceof Map)) {
+    throw new TypeError('The item counts must be a valid map.');
   }
 
   const totalCount = Array.from(itemCounts.values()).reduce((x, y) => x + y, 0);
@@ -89,7 +89,8 @@ function getHistogramPrintStatistics(map) {
    * @returns {String} bar - The bar string.
    */
   function makeHistogramBar(lengthPercent) {
-    const maxBarLength = 40;
+    // In order to make the bar display even with the most small frequencies, this value needs to be big.
+    const maxBarLength = 400;
     let bar = '';
 
     const length = Math.floor(maxBarLength * lengthPercent);
@@ -125,12 +126,11 @@ function analyzeFile(path) {
     }
 
     const sanitizedText = sanitize(data);
-    const textLength = sanitizedText.length;
     const counts = itemCounts(getChars(sanitizedText));
-    const frequencies = itemFrequencies(textLength, counts);
+    const frequencies = itemFrequencies(counts);
 
     console.log(`The analysis of the file at ${path} is...`);
-    console.log(getPrintStatistics(frequencies));
+    console.log(getHistogramPrintStatistics(frequencies));
   });
 }
 

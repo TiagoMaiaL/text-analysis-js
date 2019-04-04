@@ -102,7 +102,8 @@ if (require.main == module) {
   let textFiles = process.argv.slice(2);
 
   if (textFiles.length == 0) {
-    throw new Error('Please, include the text files to be analyzed as arguments. Example usage: npm start path-of-the-file-to-analyze ...')
+    console.error('Please, include the text files to be analyzed as arguments. Example usage: npm start path-of-the-file-to-analyze ...');
+    process.exit(1);
   }
 
   textFiles.forEach((filePath) => {

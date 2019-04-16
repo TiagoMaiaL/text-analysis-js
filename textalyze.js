@@ -87,12 +87,13 @@ function getHistogramPrintStatistics(map) {
     throw new TypeError('The item frequencies must be a valid map.');
   }
 
-  const maxBarLength = 400;
+  const maxBarLength = process.stdout.columns - 20;
+  const maxValue = Math.max(...Array.from(map.values()));
   let histogram = '';
 
   for (let [key, value] of map) {
     const percentage = value * 100.0;
-    histogram += `${key} [${Math.round((percentage) * 100.0) / 100.0}%] ${'='.repeat(Math.floor(maxBarLength * value))} \n`;
+    histogram += `${key} [${Math.round((percentage) * 100.0) / 100.0}%] ${'='.repeat(Math.floor((value / maxValue) * maxBarLength))} \n`;
   }
 
   return histogram;

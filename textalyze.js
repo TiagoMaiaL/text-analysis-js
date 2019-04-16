@@ -87,31 +87,12 @@ function getHistogramPrintStatistics(map) {
     throw new TypeError('The item frequencies must be a valid map.');
   }
 
-  /**
-   * Given a percent size, creates a bar for displayal in the histogram.
-   * @param {Number} lengthPercent - The size of the bar as a percent value.
-   * @returns {String} bar - The bar string.
-   */
-  function makeHistogramBar(lengthPercent) {
-    // In order to make the bar display even with the most small frequencies, this value needs to be big.
-    const maxBarLength = 400;
-    let bar = '';
-
-    const length = Math.floor(maxBarLength * lengthPercent);
-    console.log('the lenght is ' + length);
-
-    for (let i = 0; i < length; i++) {
-      bar += '=';
-    }
-
-    return bar;
-  }
-
+  const maxBarLength = 400;
   let histogram = '';
 
   for (let [key, value] of map) {
     const percentage = value * 100.0;
-    histogram += `${key} [${Math.round((percentage) * 100.0) / 100.0}%] ${makeHistogramBar(value)} \n`;
+    histogram += `${key} [${Math.round((percentage) * 100.0) / 100.0}%] ${'='.repeat(Math.floor(maxBarLength * value))} \n`;
   }
 
   return histogram;

@@ -44,8 +44,8 @@ function itemCounts(array) {
  * @returns {Map} itemFrequencies - A map containing the frequencies of each char based on the total count.
  */
 function itemFrequencies(itemCounts) {
-  if (typeof itemCounts != 'object' || !(itemCounts instanceof Map)) {
-    throw new TypeError('The item frequencies must be a valid map.');
+  if (!(itemCounts instanceof Map)) {
+    throw new TypeError('The item counts must be a valid map.');
   }
 
   const totalCount = Array.from(itemCounts.values()).reduce((x, y) => x + y, 0);
@@ -60,11 +60,15 @@ function itemFrequencies(itemCounts) {
 }
 
 /**
- * Given an input Map, get the text to print it to the user.
+ * Given an input Map, gets the text to print it to the user.
  * @param {Map} map - The map to be printed to the user.
  * @returns {String} text - The text to be displayed to the user.
  */
 function getPrintStatistics(map) {
+  if (!(map instanceof Map)) {
+    throw new TypeError('The passed map must be a valid one.');
+  }
+
   let output = '';
 
   for (let [key, value] of map) {
@@ -72,6 +76,27 @@ function getPrintStatistics(map) {
   }
 
   return output;
+}
+
+/**
+ * Given an input Map, gets the histogram text to print it to the user.
+ * @param {Map} map - The map to be printed to the user.
+ */
+function getHistogramPrintStatistics(map) {
+  if (!(map instanceof Map)) {
+    throw new TypeError('The item frequencies must be a valid map.');
+  }
+
+  const maxBarLength = process.stdout.columns - 20;
+  const maxValue = Math.max(...Array.from(map.values()));
+  let histogram = '';
+
+  for (let [key, value] of map) {
+    const percentage = value * 100.0;
+    histogram += `${key} [${Math.round((percentage) * 100.0) / 100.0}%] ${'='.repeat(Math.floor((value / maxValue) * maxBarLength))} \n`;
+  }
+
+  return histogram;
 }
 
 /**
@@ -87,12 +112,11 @@ function analyzeFile(path) {
     }
 
     const sanitizedText = sanitize(data);
-    const textLength = sanitizedText.length;
     const counts = itemCounts(getChars(sanitizedText));
-    const frequencies = itemFrequencies(textLength, counts);
+    const frequencies = itemFrequencies(counts);
 
     console.log(`The analysis of the file at ${path} is...`);
-    console.log(getPrintStatistics(frequencies));
+    console.log(getHistogramPrintStatistics(frequencies));
   });
 }
 
@@ -109,4 +133,4 @@ if (require.main == module) {
   });
 }
 
-module.exports = { sanitize, getChars, itemCounts, itemFrequencies, getPrintStatistics };
+module.exports = { sanitize, getChars, itemCounts, itemFrequencies, getPrintStatistics, getHistogramPrintStatistics };

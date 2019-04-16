@@ -1,4 +1,4 @@
-const { sanitize, getChars, itemCounts, itemFrequencies, getPrintStatistics } = require('../textalyze');
+const { sanitize, getChars, itemCounts, itemFrequencies, getPrintStatistics, getHistogramPrintStatistics } = require('../textalyze');
 
 describe('itemCount', () => {
   test('returns a count of the strings in the array', () => {
@@ -50,7 +50,7 @@ describe('getChars', () => {
   });
 
   test('throws an error when the passed text isn\'t a string', () => {
-    expect(getChars).toThrow(new Error('The text parameter must be a string in order for this function to work.'));
+    expect(getChars).toThrow(Error);
   });
 });
 
@@ -63,7 +63,7 @@ describe('sanitize', () => {
   });
 
   test('throws an error when the passed text isn\'t a string', () => {
-    expect(sanitize).toThrow(new Error('Only texts can be sanitized.'));
+    expect(sanitize).toThrow(Error);
   });
 });
 
@@ -71,7 +71,7 @@ describe('itemFrequencies', () => {
   test('throws an exception when a non item counts Map argument is passed', () => {
     expect(() => {
       itemFrequencies(27, null);
-    }).toThrow(new TypeError('The item frequencies must be a valid map.'));
+    }).toThrow(TypeError);
   });
 
   test('returns an empty map when an empty item count is passed', () => {
@@ -87,6 +87,12 @@ describe('itemFrequencies', () => {
 });
 
 describe('getPrintStatistics', () => {
+  test('throws an error when the map isn\'t a valid one', () => {
+    expect(() => {
+      getPrintStatistics(null);
+    }).toThrow(TypeError);
+  });
+
   test('it returns an empty string when the provided map is empty', () => {
     expect(getPrintStatistics(new Map())).toEqual('');
   });
@@ -103,5 +109,27 @@ describe('getPrintStatistics', () => {
     const expectedOutput = 'a \t 1966 \nb \t 2.25 \n';
 
     expect(getPrintStatistics(input)).toEqual(expectedOutput);
+  });
+});
+
+describe('getHistogramPrintStatistics', () => {
+  test('it returns an empty string if the frequencies are empty', () => {
+    expect(getHistogramPrintStatistics(new Map())).toEqual('');
+  });
+
+  test('throws an error if the frequencies map isn\'t valid', () => {
+    expect(() => {
+      getHistogramPrintStatistics(null);
+    }).toThrow(TypeError);
+  });
+
+  test('displays a one-line histogram for a single-frequency map', () => {
+    const input = new Map([['a', 1.0]]);
+    expect((getHistogramPrintStatistics(input).match(/\n/g) || []).length).toEqual(1);
+  });
+
+  test('displays a multi-line histogram for a multi-frequency map', () => {
+    const input = new Map([['a', 0.5], ['b', 0.5]]);
+    expect((getHistogramPrintStatistics(input).match(/\n/g) || []).length).toEqual(input.size);
   });
 });

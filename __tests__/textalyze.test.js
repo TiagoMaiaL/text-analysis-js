@@ -63,7 +63,7 @@ describe('sanitize', () => {
   });
 
   test('throws an error when the passed text isn\'t a string', () => {
-    expect(sanitize).toThrow(new Error('Only texts can be sanitized.'));
+    expect(sanitize).toThrow(Error);
   });
 });
 
@@ -71,7 +71,7 @@ describe('itemFrequencies', () => {
   test('throws an exception when a non item counts Map argument is passed', () => {
     expect(() => {
       itemFrequencies(27, null);
-    }).toThrow(new TypeError('The item counts must be a valid map.'));
+    }).toThrow(TypeError);
   });
 
   test('returns an empty map when an empty item count is passed', () => {
@@ -90,7 +90,7 @@ describe('getPrintStatistics', () => {
   test('throws an error when the map isn\'t a valid one', () => {
     expect(() => {
       getPrintStatistics(null);
-    }).toThrow(new TypeError('The passed map must be a valid one.'));
+    }).toThrow(TypeError);
   });
 
   test('it returns an empty string when the provided map is empty', () => {
@@ -120,7 +120,7 @@ describe('getHistogramPrintStatistics', () => {
   test('throws an error if the frequencies map isn\'t valid', () => {
     expect(() => {
       getHistogramPrintStatistics(null);
-    }).toThrow(new TypeError('The item frequencies must be a valid map.'));
+    }).toThrow(TypeError);
   });
 
   test('displays a one-line histogram for a single-frequency map', () => {

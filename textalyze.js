@@ -44,7 +44,7 @@ function itemCounts(array) {
  * @returns {Map} itemFrequencies - A map containing the frequencies of each char based on the total count.
  */
 function itemFrequencies(itemCounts) {
-  if (typeof itemCounts !== 'object' || !(itemCounts instanceof Map)) {
+  if (!(itemCounts instanceof Map)) {
     throw new TypeError('The item counts must be a valid map.');
   }
 
@@ -65,7 +65,7 @@ function itemFrequencies(itemCounts) {
  * @returns {String} text - The text to be displayed to the user.
  */
 function getPrintStatistics(map) {
-  if (typeof map !== 'object' || !(map instanceof Map)) {
+  if (!(map instanceof Map)) {
     throw new TypeError('The passed map must be a valid one.');
   }
 
@@ -83,7 +83,7 @@ function getPrintStatistics(map) {
  * @param {Map} map - The map to be printed to the user.
  */
 function getHistogramPrintStatistics(map) {
-  if (typeof map !== 'object' || !(map instanceof Map)) {
+  if (!(map instanceof Map)) {
     throw new TypeError('The item frequencies must be a valid map.');
   }
 
